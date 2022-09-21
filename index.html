@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #pass{
+            visibility: hidden;
+        }
+        #mid{
+            margin: auto;
+            width: 70%;
+            text-align: center;
+            padding: 20px;
+        }
+        form{
+            padding: 20px;
+            margin: auto;
+        }
+        input{
+            margin-bottom: 20px;
+        }
+        select{
+            margin-bottom: 20px;
+        }
+        body{
+            background-color: beige;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar"></div>
+    <div id="mid" class="mid">
+        <div>
+        <form>
+            <label>First Name</label><br>
+            <input type="text" name="fName" id="firstName" placeholder="Enter Your First Name"><br>
+            <label>Middle Name</label><br>
+            <input type="text" name="mName" id="midName" placeholder="Enter Your Second Name"><br>
+            <label>Last Name</label><br>
+            <input type="text" name="lName" id="lastName" placeholder="Enter Your Last Name"><br>
+            <label>Date of Birth</label><br>
+            <input type="date" id="dob"><br>
+            <label for="">Category</label><br>
+            <select name="category" id="cat">
+                <option value="">Select Your Category</option>
+                <option value="junior">Junior(0 to 16)</option>
+                <option value="senior">Senior(17 to 40)</option>
+                <option value="legends">Legends(40 plus)</option>
+            </select><br>
+            <label>Email</label><br>
+            <input type="email" name="email" id="emailID" placeholder="Enter Your Email"><br>
+            <label>Mobile Number</label><br>
+            <input type="number" name="mNum" id="mobNum" placeholder="Enter Your Mobile Number"><br>
+            <input type="text" name="passNum" id="pass"><br>
+            <input type="submit" id="sub">
+        </form>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let form=document.querySelector("form")
+    let passNum=document.querySelector("#pass").value
+    
+    
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let first_name=document.querySelector("#firstName").value
+        let mid_Name=document.querySelector("#midName").value
+        let last_name=document.querySelector("#lastName").value
+        let dob=document.querySelector("#dob").value
+        let category=document.querySelector("#cat").value
+        let email=document.querySelector("#emailID").value
+        let mob_num=document.querySelector("#mobNum").value
+        if(category=="junior"){
+            document.querySelector("#pass").value="JR"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+        }else if(category=="senior"){
+            document.querySelector("#pass").value="SR"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+        }else{
+            document.querySelector("#pass").value="LG"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+         }
+         if(first_name=="" || last_name=="" || mid_Name=="" || dob=="" || category=="" || email=="" || mob_num==""){
+            alert("please fill all fields before submitting")
+         }else{
+        document.querySelector("#sub").value="Submitting..."
+        let data=new FormData(form)
+        fetch("https://script.google.com/macros/s/AKfycbyHFcTSrLflQMlUjZATGjzhqa4VileoVENSB36zGfN3_BSe1xwfjJ7QUKSti_BaqnZWyg/exec",{
+            method:"POST",
+            body:data
+        })
+        .then(res=>res.text())
+        .then(data=>console.log(data))
+        console.log(event.target.parentNode)
+        console.log(document.querySelector("#pass").value)
+        let head1=document.createElement("h2")
+        head1.innerText="Congratulations "+first_name+", you have successfully pre-booked your pass. Your unique pass number is:"
+        let head2=document.createElement("h1")
+        head2.innerText=document.querySelector("#pass").value
+        document.querySelector("#mid").append(head1,head2)
+        event.target.parentNode.remove()
+        // console.log(dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0])
+        // if(category=="junior"){
+        //     document.querySelector("#pass").value="JR"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+        // }else if(category=="senior"){
+        //     document.querySelector("#pass").value="SR"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+        // }else{
+        //     document.querySelector("#pass").value="LG"+"-"+dob[dob.length-2]+dob[dob.length-1]+dob[dob.length-5]+dob[dob.length-4]+first_name[0]+mid_Name[0]+last_name[0]
+        //  }
+        // console.log(document.querySelector("#pass").value)
+
+    }
+})
+</script>
